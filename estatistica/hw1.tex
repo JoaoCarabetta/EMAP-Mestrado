@@ -1,0 +1,205 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}  
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{amsmath,textcomp,amssymb,geometry,graphicx,enumerate}
+\usepackage{algorithm} % Boxes/formatting around algorithms
+\usepackage[noend]{algpseudocode} % Algorithms
+\usepackage{hyperref}
+\usepackage{stmaryrd}
+\usepackage{mathtools}
+\usepackage{cleveref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\def\Name{João Carabetta}  % Your name
+\def\SID{Lycée Lakanal}
+\def\Login{Estatítica} % Your login (your class account, cs170-xy)
+\def\Homework{1} % Number of Homework
+\def\Session{}
+
+
+\title{Homework 1}
+\author{\Name, \texttt{\Login}}
+\markboth{\Session\   \Name}{\Session\  \Name, \texttt{\Login}}
+\pagestyle{myheadings}
+\date{}
+
+\newenvironment{qparts}{\begin{enumerate}[{(}a{)}]}{\end{enumerate}}
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+
+\textheight=9in
+\textwidth=6.5in
+\topmargin=-.75in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+
+
+\begin{document}
+\maketitle
+
+
+\section*{Exercício 1}
+\begin{qparts}
+
+\item Assuma que $X_1$ $\sim$ Poisson($\mu$) e encontre a transformação estabilizadora de variância para a média.$\newline$
+
+
+Dado que a $X_1$ $\sim$ Poisson($\mu$) então $Var(\mu) = \sigma^2(\mu) = \mu$ logo $\sigma(\mu) = \pm \sqrt[]{\mu}.\newline$ 
+
+Portanto, $|g'(\mu)|\sigma(\mu) = c \Rightarrow |g'(\mu)|\sqrt[]{\mu} = c \Rightarrow g'(\mu) = \pm \frac{c}{\sqrt[]{\mu}}\newline$ 
+
+Assim, $g(\mu) = \pm 2c\sqrt[]{\mu} + d, d \in R$.
+$\newline$
+\item Mostre que $\sqrt[]{n}(g(Y_n)-g(\mu)) \rightarrow N(0, 1/4).\newline$
+
+Sabendo que $\sqrt[]{n}(g(Y_n)-g(\mu)) \rightarrow N(0, \sigma(\mu)^2g'(\mu)^2)$, então, devemos escolher $c$ tal que, $c = \sigma(\mu)g'(\mu) = 1/2$
+$\newline$
+
+\item Qual a importância prática desta transformação? (explique sucintamente ou apresente um exemplo)
+
+\end{qparts}
+
+\section*{Exercício 2}
+
+
+\begin{qparts}
+\item Mostre que $\sqrt{n}(g(Y_n)-g(\mu))=o_p(1)$.
+
+
+Supondo que existe $g(y)$ então, podemos expandir $g$ em Taylor torno de $Y_n$:
+\begin{equation}
+\label{equation:TaylorSecond}
+	g(Y_n) = g(\mu) + g'(\mu)(Y_n - \mu) + \frac{g''(\mu)}{2}(Y_n - \mu)^2 + R,
+\end{equation}
+onde $R$ é o resíduo da expansão. Assim, se operando os termos e multiplicando por $\sqrt{n}$ temos:
+\begin{equation}
+	\sqrt{n}(g(Y_n) - g(\mu)) = \frac{g''(\mu)}{2}\frac{\sqrt{n}}{n^2}\Big( \sum^{\infty}_{i=0}X_i} - n\mu\Big)^2 + \sqrt{n}R.
+\end{equation}
+Se observarmos os termos, veremos que $g''(\mu)=O(1)$, $\frac{\sqrt{n}}{n^2}=o(1)$, $\Big( \sum^{\infty}_{i=0}X_i} - n\mu\Big)^2=o_P(1)$ e $\sqrt{n}R=o_p(1)$. Portanto, o produto deles é $o_p=1$. Finalmente,
+\begin{equation}
+	\sqrt{n}(g(Y_n) - g(\mu)) = o_p(1)
+\end{equation}
+
+\item Mostre que $n(g(Y_n)-g(\mu)) \xrightarrow[]{d} \frac{1}{2}g''(\mu)\sigma^2V$, onde $V \sim \chi_1^2$.
+
+
+Continuando da Eq.\ref{equation:TaylorSecond}, mas dessa vez multiplicando por $n$ os dois lados e por $\frac{\sigma^2}{\sigma^2}$ o lado direito temos,
+\begin{equation}
+	n(g(Y_n) - g(\mu)) = \sigma^2\frac{g''(\mu)}{2} \frac{n\big( Y_n-\mu\big)^2}{\sigma^2} + nR.
+\end{equation}
+
+Sabendo que $\frac{n\big(Y_n-\mu\big)^2}{\sigma^2} \xrightarrow{d} \chi^2_1$ pelo Teorema Central do Limite e $nR=o_p(1)$, então, pelo Teorema de Slutsky temos,
+\begin{equation}
+	n(g(Y_n) - g(\mu)) \xrightarrow[]{d} \frac{1}{2}g''(\mu)\sigma^2\chi_1^2
+\end{equation}
+
+\item Suponha que $X_1 \sim Bernoulli(p)$. Ache a distribuição de $g(Y_n) = Y_n(1-Y_n)$.
+
+Temos que $EX_1=p$ e $Var(X_1)=p(1-p)$ para uma distribuição Bernoulli. Assim, podemos usar $g(Y_n) = Y_n(1-Y_n)$ para estimar a $Var(X_1)=p(1-p)$. Assim, 
+
+\begin{subequations}
+	\begin{align}
+	g'(Y_n) &= 1-2Y_n \\ 
+	g''(Y_n) &= -2
+	\end{align}
+\end{subequations}
+
+mas, para como $Y_n$ estima $p$, $g'(p) = 0$ quando $p = 1/2$. Portanto,
+para $p\neq1/2$ usamos Método Delta de Primeira Ordem,
+
+\begin{subequations}
+	\begin{align}
+		\sqrt{n}(g(Y_n) - g(p)) &\xrightarrow[]{d} N(0, \sigma^2 g'(p)^2)   \Rightarrow \\
+		g(Y_n) &\xrightarrow[]{d} N(g(p), \frac{\sigma^2 g'(p)^2}{n}) \label{equation:binomialdelta1}
+		\Rightarrow \\
+		g(Y_n) &\xrightarrow[]{p} p(1-p)
+	\end{align}
+\end{subequations}
+
+
+
+ para $p=1/2$ é melhor usar o Método Delta de Segunda Ordem para aproximar a distribuição. Assim, 
+
+\begin{subequations}
+\begin{align}
+	n(g(Y_n) - g(p)) &= \frac{1}{2}g''(\mu)\sigma^2\frac{n\big( Y_n-\mu\big)^2}{\sigma^2} \Rightarrow \\
+	ng(Y_n) - n[p(1-p)] &= \frac{1}{2} (-2) p(1-p) \frac{n\big( Y_n-\mu\big)^2}{\sigma^2} \Rightarrow \\
+	g(Y_n) &= p(1-p)\Big(1 -\frac{1}{n}\frac{n\big( Y_n-\mu\big)^2}{\sigma^2}\Big)
+	\xRightarrow{Slutsky}\\
+	g(Y_n) &\xrightarrow[]{d} p(1-p)\Big(1 -\frac{1}{n}\chi_1^2\Big) \label{equation:binomialdelta2}
+	\xRightarrow{}\\
+	g(Y_n) &\xrightarrow[]{p} p(1-p)
+	\end{align}
+\end{subequations}
+
+
+\end{qparts}
+
+%%%%%%%%%%%% EXECICIO 3
+\section*{Exercício 3}
+\begin{qparts}
+	
+%%%%%%%%%%%% ITEM A
+\item $\hat{p}=\sum_{i=1}^24x_i=11/24$.
+
+
+Usando o método \textbf{Delta}:
+
+Para $p\neq1/2$, podemos usar a Eq.\ref{equation:binomialdelta1}, com $\sigma^2=p(1-p)$ e $g'(p)=(1-2p)$
+
+\begin{subequations}
+	\begin{align}
+		g(P_n) &\xrightarrow[]{d} N(g(p), \frac{\sigma^2 g'(p)^2}{n}) \Rightarrow \\
+		g(P_n) &\xrightarrow[]{d} N\left(p(1-p), \frac{p(1-p) (1-2p)^2}{n}\right) \Rightarrow \\
+		g(P_n) &\xrightarrow[]{d} N\left(0.24826, 0.00004\right)
+	\end{align}
+\end{subequations}
+
+Usando o método \textbf{Bootstrap}:
+
+Para o método Bootstrap, confira 
+
+%%%%%%%%%%%%% ITEM B
+\item $\hat{p}=\sum_{i=1}^2x_i=12/24$.
+
+Usando o método \textbf{Delta}:
+
+Agora, para $p=1/2$ temos que usar Eq.\ref{equation:binomialdelta2}. Assim, a esperança é,
+
+\begin{subequations}
+	\begin{align}
+		Eg(Y_n) &= E\left(p(1-p)\left(1-\frac{\chi^2_1}{n}\right)\right) \Rightarrow \\
+		Eg(Y_n) &= p(1-p)(1-1/n) \Rightarrow \\
+		Eg(Y_n) &= 1.043478260
+	\end{align}
+\end{subequations}
+
+e a variância é,
+
+\begin{subequations}
+	\begin{align}
+		Var(g(Y_n)) &= Var\left(p(1-p)\left(1-\frac{\chi^2_1}{n}\right)\right) \Rightarrow \\
+		Var(g(Y_n)) &= p^2(1-p)^2Var(1-\frac{\chi^2_1}{n}) \Rightarrow \\
+		Var(g(Y_n)) &= \frac{2p^2(1-p)^2}{n^2} \Rightarrow \\
+		Var(g(Y_n)) &= 0.001
+	\end{align}
+\end{subequations}
+
+Logo, $g(Y_n) = 1.043 \pm 0.001$.
+
+
+%%%%%%%%%%%%% ITEM C
+\item Suponha que o valor verdadeiro de $p=0.24$. Calcule a variância "exata" usando simulação e discuta os resultados acima. Qual método você se sentiria mais confiante em empregar?
+
+	
+\end{qparts}
+
+
+\end{document}
+
